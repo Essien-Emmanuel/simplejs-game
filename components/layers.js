@@ -64,3 +64,4 @@ export const mainLayer = [
     307,308,309,310,33,33,135,136,148,149,97,98,31,31,33,31,31,
 ]
 
+export const tileMapLayer = Array.from({ length: 323 }, (_, index) => index + 1);
