@@ -1,4 +1,8 @@
-import { mainLayer } from "./components/layers.js";
+import {
+  mainLayer,
+  backgroundLayer,
+  objectLayer,
+} from "./components/layers.js";
 
 const GAME_WIDTH = 272;
 const GAME_HEIGHT = 304;
@@ -6,12 +10,13 @@ const GAME_TILE = 16;
 const COLS = GAME_WIDTH / GAME_TILE;
 const ROWS = GAME_HEIGHT / GAME_TILE;
 
-const map = mainLayer;
+const map = [backgroundLayer, mainLayer, objectLayer];
 
 const tileMap = Array.from({ length: 323 }, (_, index) => index + 1);
 
-let debug = true;
-let defaultMap = map;
+let isTile = false;
+let debug = false;
+let defaultMap = map[1];
 
 function getTile(map, row, col) {
   return map[COLS * row + col];
@@ -31,8 +36,34 @@ window.addEventListener("load", () => {
 
   let index = 1;
 
-  function drawMap() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function drawGrid(ctx) {
+    for (let row = 0; row < ROWS; row++) {
+      for (let col = 0; col < COLS; col++) {
+        if (debug) {
+          ctx.strokeRect(
+            col * GAME_TILE,
+            row * GAME_TILE,
+            GAME_TILE,
+            GAME_TILE,
+          );
+          ctx.font = "bold 8px Arial";
+          ctx.fillStyle = "white";
+          ctx.fillText(index, col * GAME_TILE, (row + 1) * GAME_TILE);
+        }
+
+        index++;
+        if (index > 323) {
+          index = 1;
+        }
+      }
+    }
+  }
+
+  function drawMap(layer) {
+    if (!isNaN(layer)) {
+      defaultMap = map[layer];
+    }
+
     for (let row = 0; row < ROWS; row++) {
       for (let col = 0; col < COLS; col++) {
         const tile = getTile(defaultMap, row, col);
@@ -50,36 +81,31 @@ window.addEventListener("load", () => {
           GAME_TILE,
           GAME_TILE,
         );
-
-        if (debug) {
-          ctx.strokeRect(
-            col * GAME_TILE,
-            row * GAME_TILE,
-            GAME_TILE,
-            GAME_TILE,
-          );
-          ctx.font = "bold 8px Arial";
-          ctx.fillStyle = "white";
-          ctx.fillText(index, col * GAME_TILE, (row + 1) * GAME_TILE);
-        }
-
-        index++;
       }
     }
   }
-  drawMap();
+  function renderWorld() {
+    drawMap(0);
+    drawMap(1);
+    drawMap(2);
+  }
+  renderWorld();
 
   const worldButton = document.querySelector("#worldButton");
   const debugButton = document.querySelector("#debugButton");
   const tilesetButton = document.querySelector("#tilesetButton");
 
   worldButton.addEventListener("click", () => {
-    defaultMap = map;
+    // defaultMap = map;
+    isTile = false;
     index = 1;
-    drawMap();
+    renderWorld();
   });
 
   tilesetButton.addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    isTile = true;
     defaultMap = tileMap;
     index = 1;
     drawMap();
@@ -88,6 +114,13 @@ window.addEventListener("load", () => {
   debugButton.addEventListener("click", () => {
     debug = !debug;
     index = 1;
-    drawMap();
+    if (!isTile) {
+      renderWorld();
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawMap();
+    }
+
+    if (debug) drawGrid(ctx);
   });
 });
