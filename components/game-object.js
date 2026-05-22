@@ -13,22 +13,21 @@ export class GameObject {
   }
 
   drawSprite(ctx) {
-    ctx.fillStyle = "rgba(225, 10, 10, 0.7)";
-    ctx.fillRect(this.position.x, this.position.y, GAME_TILE, GAME_TILE);
+    if (this.game._debug) {
+      ctx.fillStyle = "rgba(225, 10, 10, 0.7)";
+      ctx.fillRect(this.position.x, this.position.y, GAME_TILE, GAME_TILE);
+    }
+
     ctx.drawImage(
       this.sprite.image,
-      0,
-      0,
+      this.sprite.x * this.sprite.w,
+      this.sprite.y * this.sprite.h,
       this.sprite.w,
       this.sprite.h,
       this.position.x + HALF_TILE - this.halfWidth,
       this.position.y + GAME_TILE - this.height,
-      //   this.sprite.w,
-      //   this.sprite.h,
-
       this.width,
       this.height,
     );
-    console.log(this.height);
   }
 }

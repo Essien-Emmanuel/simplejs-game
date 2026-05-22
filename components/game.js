@@ -1,11 +1,15 @@
 import { GAME_TILE, HERO_PIXELS_PER_FRAME } from "../constants.js";
 import { Hero } from "./hero.js";
+import { Input } from "./input.js";
 import { World } from "./world.js";
 
 export class Game {
   constructor(ctx) {
     this.ctx = ctx;
+
     this.world = new World();
+    this.input = new Input();
+
     this.hero = new Hero({
       game: this,
       sprite: {
@@ -31,7 +35,9 @@ export class Game {
     });
   }
 
-  update() {}
+  update() {
+    this.hero.update();
+  }
 
   render() {
     this.world.drawMap(this.ctx);

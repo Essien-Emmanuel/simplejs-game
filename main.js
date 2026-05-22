@@ -10,5 +10,11 @@ window.addEventListener("load", () => {
   ctx.imageSmoothingEnabled = false;
 
   const game = new Game(ctx);
-  game.render();
+
+  function animate() {
+    game.update();
+    game.render();
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
 });
