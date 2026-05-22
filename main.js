@@ -11,8 +11,12 @@ window.addEventListener("load", () => {
 
   const game = new Game(ctx);
 
-  function animate() {
-    game.update();
+  let lastTime = 0;
+
+  function animate(timestamp) {
+    const deltaTime = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+    game.update(deltaTime);
     game.render();
     requestAnimationFrame(animate);
   }

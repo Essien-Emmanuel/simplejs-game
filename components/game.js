@@ -23,8 +23,12 @@ export class Game {
       scale: 1,
     });
 
-    this._debug = true;
     this._registerEvents();
+
+    this._debug = true;
+    this.timer = 0;
+    this.eventInterval = 200;
+    this.eventUpdate = false;
   }
 
   _registerEvents() {
@@ -35,8 +39,16 @@ export class Game {
     });
   }
 
-  update() {
-    this.hero.update();
+  update(deltaTime) {
+    this.hero.update(deltaTime);
+
+    if (this.timer > this.eventInterval) {
+      this.timer = this.timer % this.eventInterval;
+      this.eventUpdate = true;
+    } else {
+      this.timer++;
+      this.eventUpdate = false;
+    }
   }
 
   render() {

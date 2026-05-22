@@ -4,17 +4,20 @@ import { GameObject } from "./game-object.js";
 export class Hero extends GameObject {
   constructor({ game, sprite, position, scale }) {
     super({ game, sprite, position, scale });
-    this.speed = 2;
+    this.speed = 200;
     this.maxFrame = 8;
     this.moving = false;
   }
 
-  update() {
+  update(deltaTime) {
     let nextX = this.destinationPos.x;
     let nextY = this.destinationPos.y;
 
-    const distance = this.moveTowards(this.destinationPos, this.speed);
-    const arrived = distance <= this.speed;
+    const scaledSpeed = this.speed * deltaTime;
+    console.log(scaledSpeed);
+
+    const distance = this.moveTowards(this.destinationPos, scaledSpeed);
+    const arrived = distance <= scaledSpeed;
 
     if (arrived) {
       if (this.game.input.lastKey === UP) {
@@ -34,13 +37,16 @@ export class Hero extends GameObject {
         this.sprite.y = 11;
       }
 
-      if (this.game.input.keys.length > 0 || !arrived) {
+      if (
+        this.game.input.keys.length > 0 ||
+        (!arrived && this.game.eventUpdate)
+      ) {
         this.moving = true;
       } else {
         this.moving = false;
       }
-      console.log("x", this.moving, this.sprite.x);
 
+      console.log(this.game.eventUpdate, this.game.timer);
       if (this.moving) {
         if (this.sprite.x < this.maxFrame) {
           this.sprite.x++;
