@@ -20,7 +20,7 @@ export class Game {
         image: document.querySelector("#hero"),
       },
       position: { x: 10 * GAME_TILE, y: 10 * GAME_TILE },
-      scale: 1,
+      scale: 0.56,
     });
 
     this._registerEvents();

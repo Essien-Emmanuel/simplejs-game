@@ -14,7 +14,7 @@ import { GameObject } from "./game-object.js";
 export class Hero extends GameObject {
   constructor({ game, sprite, position, scale }) {
     super({ game, sprite, position, scale });
-    this.speed = 160;
+    this.speed = 120;
     this.maxFrame = 8;
     this.moving = false;
   }
@@ -60,8 +60,14 @@ export class Hero extends GameObject {
     if (this.game.world.getTile(this.game.world.map[4], row, col) === 0) {
       this.moving = false;
     } else {
-      this.destinationPos.x = nextX;
-      this.destinationPos.y = nextY;
+      this.destinationPos.x = Math.max(
+        0,
+        Math.min(nextX, GAME_WIDTH - GAME_TILE),
+      );
+      this.destinationPos.y = Math.max(
+        0,
+        Math.min(nextY, GAME_HEIGHT - GAME_TILE),
+      );
     }
 
     if (this.moving && this.game.eventUpdate) {
