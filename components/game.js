@@ -26,9 +26,9 @@ export class Game {
     this._registerEvents();
 
     this._debug = true;
-    this.timer = 0;
-    this.eventInterval = 200;
-    this.eventUpdate = false;
+    this.eventTimer = 0;
+    this.eventInterval = 60;
+    this.eventUpdate = true;
   }
 
   _registerEvents() {
@@ -42,11 +42,11 @@ export class Game {
   update(deltaTime) {
     this.hero.update(deltaTime);
 
-    if (this.timer > this.eventInterval) {
-      this.timer = this.timer % this.eventInterval;
+    if (this.eventTimer > this.eventInterval) {
+      this.eventTimer = this.eventInterval % this.eventTimer;
       this.eventUpdate = true;
     } else {
-      this.timer++;
+      this.eventTimer += deltaTime;
       this.eventUpdate = false;
     }
   }

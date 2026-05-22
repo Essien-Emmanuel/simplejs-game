@@ -14,7 +14,7 @@ window.addEventListener("load", () => {
   let lastTime = 0;
 
   function animate(timestamp) {
-    const deltaTime = (timestamp - lastTime) / 1000;
+    const deltaTime = timestamp - lastTime;
     lastTime = timestamp;
     game.update(deltaTime);
     game.render();
