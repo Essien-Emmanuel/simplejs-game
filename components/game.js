@@ -25,7 +25,7 @@ export class Game {
 
     this._registerEvents();
 
-    this._debug = true;
+    this._debug = false;
     this.eventTimer = 0;
     this.eventInterval = 60;
     this.eventUpdate = true;
@@ -54,9 +54,13 @@ export class Game {
   render() {
     this.world.drawMap(this.ctx);
     this.hero.drawSprite(this.ctx);
+    this.world.drawForeground(this.ctx);
 
     if (this._debug) {
-      this.world.drawGrid(this.ctx);
+      this.world.drawGrid(
+        this.ctx,
+        //  { verbose: true }
+      );
     }
   }
 }

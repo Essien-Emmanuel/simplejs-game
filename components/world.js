@@ -1,9 +1,21 @@
 import { COLS, GAME_TILE, ROWS } from "../constants.js";
-import { backgroundLayer, mainLayer, objectLayer } from "./layers.js";
+import {
+  backgroundLayer,
+  collisionLayer,
+  foregroundLayer,
+  mainLayer,
+  objectLayer,
+} from "./layers.js";
 
 export class World {
   constructor() {
-    this.map = [backgroundLayer, mainLayer, objectLayer];
+    this.map = [
+      backgroundLayer,
+      mainLayer,
+      objectLayer,
+      foregroundLayer,
+      collisionLayer,
+    ];
 
     this.TILE_IMAGE = document.querySelector("#tileset");
     this.TILE_IMAGE_CELL = 16;
@@ -62,6 +74,10 @@ export class World {
         );
       }
     }
+  }
+
+  drawForeground(ctx) {
+    this._drawLayer(ctx, 3);
   }
 
   drawMap(ctx) {

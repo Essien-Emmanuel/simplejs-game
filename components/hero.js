@@ -1,4 +1,14 @@
-import { DOWN, GAME_TILE, LEFT, RIGHT, UP } from "../constants.js";
+import {
+  COLS,
+  DOWN,
+  GAME_HEIGHT,
+  GAME_TILE,
+  GAME_WIDTH,
+  LEFT,
+  RIGHT,
+  ROWS,
+  UP,
+} from "../constants.js";
 import { GameObject } from "./game-object.js";
 
 export class Hero extends GameObject {
@@ -43,6 +53,17 @@ export class Hero extends GameObject {
       this.moving = false;
     }
 
+    let row = nextY / GAME_TILE;
+    let col = nextX / GAME_TILE;
+
+    // collision
+    if (this.game.world.getTile(this.game.world.map[4], row, col) === 0) {
+      this.moving = false;
+    } else {
+      this.destinationPos.x = nextX;
+      this.destinationPos.y = nextY;
+    }
+
     if (this.moving && this.game.eventUpdate) {
       if (this.sprite.x < this.maxFrame) {
         this.sprite.x++;
@@ -52,8 +73,5 @@ export class Hero extends GameObject {
     } else if (!this.moving) {
       this.sprite.x = 0;
     }
-
-    this.destinationPos.x = nextX;
-    this.destinationPos.y = nextY;
   }
 }
