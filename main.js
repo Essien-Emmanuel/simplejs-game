@@ -1,5 +1,4 @@
 import { Game } from "./components/game.js";
-import { World } from "./components/world.js";
 import { GAME_HEIGHT, GAME_WIDTH } from "./constants.js";
 
 window.addEventListener("load", () => {
@@ -10,7 +9,6 @@ window.addEventListener("load", () => {
   canvas.height = GAME_HEIGHT;
   ctx.imageSmoothingEnabled = false;
 
-  const world = new World();
-  const game = new Game(ctx, world);
+  const game = new Game(ctx);
   game.render();
 });

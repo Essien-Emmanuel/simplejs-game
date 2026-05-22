@@ -1,9 +1,25 @@
-export class Game {
-  constructor(ctx, world) {
-    this.ctx = ctx;
-    this.world = world;
+import { GAME_TILE, HERO_PIXELS_PER_FRAME } from "../constants.js";
+import { Hero } from "./hero.js";
+import { World } from "./world.js";
 
-    this._debug = false;
+export class Game {
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.world = new World();
+    this.hero = new Hero({
+      game: this,
+      sprite: {
+        x: 0,
+        y: 0,
+        w: HERO_PIXELS_PER_FRAME,
+        h: HERO_PIXELS_PER_FRAME,
+        image: document.querySelector("#hero"),
+      },
+      position: { x: 10 * GAME_TILE, y: 10 * GAME_TILE },
+      scale: 1,
+    });
+
+    this._debug = true;
     this._registerEvents();
   }
 
@@ -19,6 +35,7 @@ export class Game {
 
   render() {
     this.world.drawMap(this.ctx);
+    this.hero.drawSprite(this.ctx);
 
     if (this._debug) {
       this.world.drawGrid(this.ctx);
