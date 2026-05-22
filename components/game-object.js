@@ -10,10 +10,47 @@ export class GameObject {
     this.width = this.sprite.w * this.scale;
     this.halfWidth = this.width / 2;
     this.height = this.sprite.h * this.scale;
+
+    this.destinationPos = { x: this.position.x, y: this.position.y };
+    this.distanceToTravel = { x: 0, y: 0 };
+  }
+
+  moveTowards(destinationPos, speed) {
+    console.log(destinationPos);
+    this.distanceToTravel.x = destinationPos.x - this.position.x;
+    this.distanceToTravel.y = destinationPos.y - this.position.y;
+
+    let distance = Math.hypot(this.distanceToTravel.x, this.distanceToTravel.y);
+
+    if (distance <= speed) {
+      this.position.x = destinationPos.x;
+      this.position.y = destinationPos.y;
+    } else {
+      let stepX = this.distanceToTravel.x / distance;
+      let stepY = this.distanceToTravel.y / distance;
+
+      this.position.x += stepX * speed;
+      this.position.y += stepY * speed;
+
+      this.distanceToTravel.x = destinationPos.x - this.position.x;
+      this.distanceToTravel.y = destinationPos.y - this.position.y;
+
+      distance = Math.hypot(this.distanceToTravel.x, this.distanceToTravel.y);
+    }
+
+    return distance;
   }
 
   drawSprite(ctx) {
     if (this.game._debug) {
+      ctx.fillStyle = "rgba(187, 240, 15, 0.91)";
+      ctx.fillRect(
+        this.destinationPos.x,
+        this.destinationPos.y,
+        GAME_TILE,
+        GAME_TILE,
+      );
+
       ctx.fillStyle = "rgba(225, 10, 10, 0.7)";
       ctx.fillRect(this.position.x, this.position.y, GAME_TILE, GAME_TILE);
     }
