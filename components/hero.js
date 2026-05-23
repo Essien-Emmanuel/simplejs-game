@@ -1,12 +1,10 @@
 import {
-  COLS,
   DOWN,
   GAME_HEIGHT,
   GAME_TILE,
   GAME_WIDTH,
   LEFT,
   RIGHT,
-  ROWS,
   UP,
 } from "../constants.js";
 import { GameObject } from "./game-object.js";

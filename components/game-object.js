@@ -20,6 +20,7 @@ export class GameObject {
     this.distanceToTravel.y = destinationPos.y - this.position.y;
 
     let distance = Math.hypot(this.distanceToTravel.x, this.distanceToTravel.y);
+
     if (distance <= speed) {
       this.position.x = destinationPos.x;
       this.position.y = destinationPos.y;
