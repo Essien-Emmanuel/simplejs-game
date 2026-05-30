@@ -12,12 +12,14 @@ import { GameObject } from "./game-object.js";
 export class Hero extends GameObject {
   constructor({ game, sprite, position, scale }) {
     super({ game, sprite, position, scale });
-    this.speed = 120;
+    this.speed = 100;
     this.maxFrame = 8;
     this.moving = false;
   }
 
   update(deltaTime) {
+    if (!this.isVisible) return;
+
     let nextX = this.destinationPos.x;
     let nextY = this.destinationPos.y;
 
@@ -53,6 +55,8 @@ export class Hero extends GameObject {
 
     let row = nextY / GAME_TILE;
     let col = nextX / GAME_TILE;
+
+    // console.log({ row, col, nextX, nextY });
 
     // collision
     if (this.game.world.getTile(this.game.world.map[4], row, col) === 0) {

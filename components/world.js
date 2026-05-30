@@ -49,17 +49,28 @@ export class World {
     }
   }
 
-  _drawLayer(ctx, layer) {
+  _drawLayer(ctx, camera, layer) {
     if (!isNaN(layer)) {
       this.defaultMap = this.map[layer];
     }
 
-    for (let row = 0; row < ROWS; row++) {
-      for (let col = 0; col < COLS; col++) {
+    const startRow = Math.floor(camera.y / GAME_TILE);
+    const startCol = Math.floor(camera.x / GAME_TILE);
+    const endRow = startRow + camera.h / GAME_TILE;
+    const endCol = startCol + camera.w / GAME_TILE;
+
+    const offsetX = -camera.x + startCol * GAME_TILE;
+    const offsetY = -camera.y + startRow * GAME_TILE;
+
+    for (let row = startRow; row <= endRow; row++) {
+      for (let col = startCol; col <= endCol; col++) {
         const tile = this.getTile(this.defaultMap, row, col);
         const sx = ((tile - 1) * this.TILE_IMAGE_CELL) % this.TILE_IMAGE.width;
         const sy =
           Math.floor((tile - 1) / this.TILE_IMAGE_COL) * this.TILE_IMAGE_CELL;
+
+        const x = (col - startCol) * GAME_TILE + offsetX;
+        const y = (row - startRow) * GAME_TILE + offsetY;
 
         ctx.drawImage(
           this.TILE_IMAGE,
@@ -67,8 +78,8 @@ export class World {
           sy,
           this.TILE_IMAGE_CELL,
           this.TILE_IMAGE_CELL,
-          col * GAME_TILE,
-          row * GAME_TILE,
+          Math.round(x),
+          Math.round(y),
           GAME_TILE,
           GAME_TILE,
         );
@@ -76,13 +87,13 @@ export class World {
     }
   }
 
-  drawForeground(ctx) {
-    this._drawLayer(ctx, 3);
+  drawForeground(ctx, camera) {
+    this._drawLayer(ctx, camera, 3);
   }
 
-  drawMap(ctx) {
-    this._drawLayer(ctx, 0);
-    this._drawLayer(ctx, 1);
-    this._drawLayer(ctx, 2);
+  drawMap(ctx, camera) {
+    this._drawLayer(ctx, camera, 0);
+    this._drawLayer(ctx, camera, 1);
+    this._drawLayer(ctx, camera, 2);
   }
 }

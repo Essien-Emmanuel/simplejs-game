@@ -1,4 +1,10 @@
-import { GAME_TILE, HERO_PIXELS_PER_FRAME } from "../constants.js";
+import {
+  GAME_HEIGHT,
+  GAME_TILE,
+  GAME_WIDTH,
+  HERO_PIXELS_PER_FRAME,
+} from "../constants.js";
+import { Camera } from "./camera.js";
 import { Hero } from "./hero.js";
 import { Input } from "./input.js";
 import { World } from "./world.js";
@@ -9,6 +15,7 @@ export class Game {
 
     this.world = new World();
     this.input = new Input();
+    this.camera = new Camera(this.world, GAME_WIDTH, GAME_HEIGHT);
 
     this.hero = new Hero({
       game: this,
@@ -49,12 +56,23 @@ export class Game {
       this.eventTimer += deltaTime;
       this.eventUpdate = false;
     }
+
+    this.camera.updatePosition(deltaTime, this.input.lastKey);
   }
 
   render() {
-    this.world.drawMap(this.ctx);
+    const camera = {
+      x: this.camera.x,
+      y: this.camera.y,
+      w: this.camera.width,
+      h: this.camera.height,
+    };
+
+    this.hero.isVisible = true;
+
+    this.world.drawMap(this.ctx, camera);
     this.hero.drawSprite(this.ctx);
-    this.world.drawForeground(this.ctx);
+    this.world.drawForeground(this.ctx, camera);
 
     if (this._debug) {
       this.world.drawGrid(
