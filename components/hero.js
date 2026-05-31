@@ -56,7 +56,7 @@ export class Hero extends GameObject {
     let row = nextY / GAME_TILE;
     let col = nextX / GAME_TILE;
 
-    // console.log({ row, col, nextX, nextY });
+    console.log({ row, col, nextX, nextY });
 
     // collision
     if (this.game.world.getTile(this.game.world.map[4], row, col) === 0) {
