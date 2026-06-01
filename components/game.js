@@ -32,7 +32,7 @@ export class Game {
 
     this._registerEvents();
 
-    this._debug = false;
+    this._debug = true;
     this.eventTimer = 0;
     this.eventInterval = 60;
     this.eventUpdate = true;

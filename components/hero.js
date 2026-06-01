@@ -56,12 +56,12 @@ export class Hero extends GameObject {
     let row = nextY / GAME_TILE;
     let col = nextX / GAME_TILE;
 
-    console.log({ row, col, nextX, nextY });
-
     // collision
     if (this.game.world.getTile(this.game.world.map[4], row, col) === 0) {
+      this.game.camera.moving = false;
       this.moving = false;
     } else {
+      this.game.camera.moving = true;
       this.destinationPos.x = Math.max(
         0,
         Math.min(nextX, GAME_WIDTH - GAME_TILE),
