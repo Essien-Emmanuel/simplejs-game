@@ -1,3 +1,6 @@
+export const GAME_WORLD_WIDTH = 272;
+export const GAME_WORLD_HEIGHT = 304;
+
 export const GAME_WIDTH = 192; //272;
 export const GAME_HEIGHT = 224; //304;
 

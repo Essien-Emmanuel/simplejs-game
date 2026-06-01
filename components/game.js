@@ -32,7 +32,7 @@ export class Game {
 
     this._registerEvents();
 
-    this._debug = true;
+    this._debug = false;
     this.eventTimer = 0;
     this.eventInterval = 60;
     this.eventUpdate = true;
@@ -57,7 +57,7 @@ export class Game {
       this.eventUpdate = false;
     }
 
-    this.camera.updatePosition(deltaTime, this.input.lastKey);
+    this.camera.follow(this.hero);
   }
 
   render() {
@@ -77,6 +77,7 @@ export class Game {
     if (this._debug) {
       this.world.drawGrid(
         this.ctx,
+        camera,
         //  { verbose: true }
       );
     }

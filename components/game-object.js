@@ -44,17 +44,25 @@ export class GameObject {
   drawSprite(ctx) {
     if (!this.isVisible) return;
 
+    const cameraX = this.game.camera.x;
+    const cameraY = this.game.camera.y;
+
     if (this.game._debug) {
       ctx.fillStyle = "rgba(187, 240, 15, 0.91)";
       ctx.fillRect(
-        this.destinationPos.x,
-        this.destinationPos.y,
+        this.destinationPos.x - cameraX,
+        this.destinationPos.y - cameraY,
         GAME_TILE,
         GAME_TILE,
       );
 
       ctx.fillStyle = "rgba(225, 10, 10, 0.7)";
-      ctx.fillRect(this.position.x, this.position.y, GAME_TILE, GAME_TILE);
+      ctx.fillRect(
+        this.position.x - cameraX,
+        this.position.y - cameraY,
+        GAME_TILE,
+        GAME_TILE,
+      );
     }
 
     ctx.drawImage(
@@ -63,8 +71,8 @@ export class GameObject {
       this.sprite.y * this.sprite.h,
       this.sprite.w,
       this.sprite.h,
-      this.position.x + HALF_TILE - this.halfWidth,
-      this.position.y + GAME_TILE - this.height,
+      this.position.x + HALF_TILE - this.halfWidth - cameraX,
+      this.position.y + GAME_TILE - this.height - cameraY,
       this.width,
       this.height,
     );

@@ -3,8 +3,11 @@ import {
   GAME_HEIGHT,
   GAME_TILE,
   GAME_WIDTH,
+  GAME_WORLD_HEIGHT,
+  GAME_WORLD_WIDTH,
   LEFT,
   RIGHT,
+  ROWS,
   UP,
 } from "../constants.js";
 import { GameObject } from "./game-object.js";
@@ -58,17 +61,15 @@ export class Hero extends GameObject {
 
     // collision
     if (this.game.world.getTile(this.game.world.map[4], row, col) === 0) {
-      this.game.camera.moving = false;
       this.moving = false;
     } else {
-      this.game.camera.moving = true;
       this.destinationPos.x = Math.max(
         0,
-        Math.min(nextX, GAME_WIDTH - GAME_TILE),
+        Math.min(nextX, GAME_WORLD_WIDTH - GAME_TILE),
       );
       this.destinationPos.y = Math.max(
         0,
-        Math.min(nextY, GAME_HEIGHT - GAME_TILE),
+        Math.min(nextY, GAME_WORLD_HEIGHT - GAME_TILE),
       );
     }
 

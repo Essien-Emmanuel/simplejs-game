@@ -28,12 +28,20 @@ export class World {
     return map[COLS * row + col];
   }
 
-  drawGrid(ctx, options) {
+  drawGrid(ctx, camera, options) {
     for (let row = 0; row < ROWS; row++) {
       for (let col = 0; col < COLS; col++) {
+        const cameraX = camera ? camera.x : 0;
+        const cameraY = camera ? camera.y : 0;
+
         ctx.strokeStyle = "black";
         ctx.lineWidth = 0.5;
-        ctx.strokeRect(col * GAME_TILE, row * GAME_TILE, GAME_TILE, GAME_TILE);
+        ctx.strokeRect(
+          col * GAME_TILE - cameraX,
+          row * GAME_TILE - cameraY,
+          GAME_TILE,
+          GAME_TILE,
+        );
 
         if (options && options.verbose) {
           ctx.font = "bold 8px Arial";
