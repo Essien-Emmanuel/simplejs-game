@@ -41,11 +41,11 @@ export class GameObject {
     return distance;
   }
 
-  drawSprite(ctx) {
+  drawSprite(ctx, camera) {
     if (!this.isVisible) return;
 
-    const cameraX = this.game.camera.x;
-    const cameraY = this.game.camera.y;
+    const cameraX = camera.x;
+    const cameraY = camera.y;
 
     if (this.game._debug) {
       ctx.fillStyle = "rgba(187, 240, 15, 0.91)";

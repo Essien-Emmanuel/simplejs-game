@@ -17,6 +17,7 @@ export class Hero extends GameObject {
     super({ game, sprite, position, scale });
     this.speed = 100;
     this.maxFrame = 8;
+    this.frame = 0;
     this.moving = false;
   }
 
@@ -76,11 +77,23 @@ export class Hero extends GameObject {
     if (this.moving && this.game.eventUpdate) {
       if (this.sprite.x < this.maxFrame) {
         this.sprite.x++;
+
+        // play footstep
+        if (this.frame === 2 || this.frame === 5) {
+          this.game.walkSound.currentTime = 0;
+          this.game.walkSound.play();
+        }
+        this.frame++;
+        if (this.frame > 8) this.frame = 0;
       } else {
         this.sprite.x = 1;
+        this.game.walkSound.currentTime = 0;
+        this.game.walkSound.play();
       }
     } else if (!this.moving) {
       this.sprite.x = 0;
+      this.game.walkSound.pause();
+      this.game.walkSound.currentTime = 0;
     }
   }
 }

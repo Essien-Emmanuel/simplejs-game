@@ -5,6 +5,7 @@ import {
   HERO_PIXELS_PER_FRAME,
 } from "../constants.js";
 import { Camera } from "./camera.js";
+import { GameObject } from "./game-object.js";
 import { Hero } from "./hero.js";
 import { Input } from "./input.js";
 import { World } from "./world.js";
@@ -27,8 +28,29 @@ export class Game {
         image: document.querySelector("#hero"),
       },
       position: { x: 10 * GAME_TILE, y: 10 * GAME_TILE },
-      scale: 0.56,
+      scale: 0.4,
     });
+
+    // other sprites
+    const bombImg = new Image();
+    bombImg.src = "../assets/bomb.png";
+
+    this.bomb = new GameObject({
+      game: this,
+      sprite: {
+        x: 0,
+        y: 0,
+        w: 1000,
+        h: 1050,
+        image: bombImg,
+        position: { x: 100, y: 100 },
+      },
+    });
+
+    // sound
+    this.walkSound = new Audio();
+    this.walkSound.volume = 0.3;
+    this.walkSound.src = "../assets/walk.wav";
 
     this._registerEvents();
 
@@ -71,8 +93,9 @@ export class Game {
     this.hero.isVisible = true;
 
     this.world.drawMap(this.ctx, camera);
-    this.hero.drawSprite(this.ctx);
+    this.hero.drawSprite(this.ctx, camera);
     this.world.drawForeground(this.ctx, camera);
+    this.bomb.drawSprite(this.ctx, camera);
 
     if (this._debug) {
       this.world.drawGrid(
