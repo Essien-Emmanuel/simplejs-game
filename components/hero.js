@@ -17,7 +17,6 @@ export class Hero extends GameObject {
     super({ game, sprite, position, scale });
     this.speed = 100;
     this.maxFrame = 8;
-    this.frame = 0;
     this.moving = false;
   }
 
@@ -79,12 +78,10 @@ export class Hero extends GameObject {
         this.sprite.x++;
 
         // play footstep
-        if (this.frame === 2 || this.frame === 5) {
+        if (this.sprite.x === 2 || this.sprite.x === 6) {
           this.game.walkSound.currentTime = 0;
           this.game.walkSound.play();
         }
-        this.frame++;
-        if (this.frame > 8) this.frame = 0;
       } else {
         this.sprite.x = 1;
         this.game.walkSound.currentTime = 0;
