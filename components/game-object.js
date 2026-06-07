@@ -1,12 +1,13 @@
 import { GAME_TILE, HALF_TILE } from "../constants.js";
 
 export class GameObject {
-  constructor({ game, sprite, position, scale, isVisible }) {
+  constructor({ game, sprite, position, scale, isVisible, coliider }) {
     this.game = game;
     this.sprite = sprite ?? { x: 0, y: 0, w: 0, h: 0, image: "" };
     this.position = position ?? { x: 0, y: 0 };
     this.scale = scale ?? 1;
     this.isVisible = isVisible ?? true;
+    this.collider = coliider ?? null;
 
     this.width = this.sprite.w * this.scale;
     this.halfWidth = this.width / 2;
