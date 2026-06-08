@@ -92,7 +92,7 @@ export class Game {
   update(deltaTime) {
     if (this.playBgSound) {
       this.bgSound.volume = 0.5;
-      this.bgSound.play();
+      this.bgSound.pause();
     } else {
       this.bgSound.volume = 0;
     }
@@ -117,10 +117,10 @@ export class Game {
         this.animation.add(
           new Explosion(this.bomb.position.x, this.bomb.position.y),
         );
-        this.animation.update();
         this.bomb.isVisible = false;
       }
     }
+    this.animation.update();
   }
 
   render() {

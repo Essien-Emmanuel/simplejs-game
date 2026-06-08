@@ -31,7 +31,9 @@ export class Explosion {
 
   draw(ctx, camera) {
     ctx.save();
-    ctx.translate(this.x, this.y);
+    const posX = this.x + GAME_TILE / 2 - camera.x;
+    const posY = this.y + GAME_TILE / 2 - camera.y;
+    ctx.translate(posX, posY);
     ctx.rotate(this.angle);
     ctx.drawImage(
       this.img,
@@ -39,8 +41,8 @@ export class Explosion {
       0,
       this.spriteWidth,
       this.spriteHeight,
-      0 - this.width * 0.5 - camera.x,
-      0 - this.height * 0.5 - camera.y,
+      0 - this.width * 0.5,
+      0 - this.height * 0.5,
       this.width,
       this.height,
     );
