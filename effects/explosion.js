@@ -6,8 +6,9 @@ export class Explosion {
     this.y = y;
     this.spriteWidth = 200;
     this.spriteHeight = 179;
-    this.width = this.spriteWidth * 0.15;
-    this.height = this.spriteHeight * 0.15;
+    this.scale = 0.15;
+    this.width = this.spriteWidth * this.scale;
+    this.height = this.spriteHeight * this.scale;
     this.img = new Image();
     this.img.src = "../assets/boom.png";
     this.sound = new Audio();
