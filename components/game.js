@@ -6,6 +6,7 @@ import {
 } from "../constants.js";
 import { Explosion } from "../effects/explosion.js";
 import { GameAnimation } from "./animation.js";
+import { AudioManager } from "./audio.js";
 import { Camera } from "./camera.js";
 import { Collider } from "./collider.js";
 import { GameObject } from "./game-object.js";
@@ -54,14 +55,7 @@ export class Game {
     };
 
     // sound
-    this.walkSound = new Audio();
-    this.walkSound.volume = 0.3;
-    this.walkSound.src = "../assets/walk.wav";
-
-    this.bgSound = new Audio();
-    this.bgSound.volume = 0.5;
-    this.bgSound.loop = true;
-    this.bgSound.src = "../assets/bg.mp3";
+    this.audioManager = new AudioManager();
 
     // animation
     this.animation = new GameAnimation();
@@ -79,6 +73,23 @@ export class Game {
         this.playBgSound = !this.playBgSound;
       }
     });
+
+    this.prepareAudio();
+  }
+
+  async prepareAudio() {
+    this.audioManager
+      .register({
+        title: "footStep",
+        audio: await this.audioManager.loadAudio("../assets/walk.wav"),
+        volume: 0.3,
+      })
+      .register({
+        title: "bg",
+        audio: await this.audioManager.loadAudio("../assets/bg.mp3"),
+        loop: true,
+        volume: 0.5,
+      });
   }
 
   _registerEvents() {
@@ -90,11 +101,12 @@ export class Game {
   }
 
   update(deltaTime) {
-    if (this.playBgSound) {
-      this.bgSound.volume = 0.5;
-      this.bgSound.pause();
+    this.audioManager.setTarget("bg");
+    if (this.audioManager.has("bgs")) {
+      this.audioManager.setVolume(0.5);
+      this.audioManager.play();
     } else {
-      this.bgSound.volume = 0;
+      this.audioManager.setVolume(0);
     }
     this.hero.update(deltaTime);
 

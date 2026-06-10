@@ -73,24 +73,26 @@ export class Hero extends GameObject {
       );
     }
 
+    this.game.audioManager.setTarget("footStep");
+
     if (this.moving && this.game.eventUpdate) {
       if (this.sprite.x < this.maxFrame) {
         this.sprite.x++;
 
         // play footstep
         if (this.sprite.x === 2 || this.sprite.x === 6) {
-          this.game.walkSound.currentTime = 0;
-          this.game.walkSound.play();
+          this.game.audioManager.setPlayTime(0);
+          this.game.audioManager.play();
         }
       } else {
         this.sprite.x = 1;
-        this.game.walkSound.currentTime = 0;
-        this.game.walkSound.play();
+        this.game.audioManager.setPlayTime(0);
+        this.game.audioManager.play();
       }
     } else if (!this.moving) {
       this.sprite.x = 0;
-      this.game.walkSound.pause();
-      this.game.walkSound.currentTime = 0;
+      this.game.audioManager.pause();
+      this.game.audioManager.setPlayTime(0);
     }
   }
 }
